@@ -5,5 +5,25 @@ import Dwarf from './characters/Dwarf.js';
 import Crossbowman from './characters/Crossbowman.js';
 import Demiurge from './characters/Demiurge.js';
 
-export function play() {
+export function play(players) {
+  let deadPlayers = [];
+  while (deadPlayers.length < players.length - 1) {
+    players.forEach(player => {
+      player.turn(players);
+    });
+    players.forEach(player => {
+      if (player.isDead() & !deadPlayers.includes(player)) {
+        deadPlayers.push(player);
+      }
+    })
+  }
+
+  const winner = players.find(player => player.isDead() === false);
+  return winner;
 }
+
+export const players = [
+  new Warrior(0, "Алёша Попович"),
+  new Archer(2, "Леголас"),
+  new Mage(10, "Гендальф")
+];
